@@ -16,6 +16,7 @@ html
       img(v-for="img in curPage",:src="img")
       nav(v-show="images.length > 50")
         button(@click="movePage(-1)") &lt;
+        input(type="number",v-model.number="page",style="{ width:150 }")
         button(@click="movePage(1)") &gt;
     script(src="js/vue.js")
     script(src="js/script.js")
