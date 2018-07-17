@@ -5,6 +5,7 @@ html
     link(rel="stylesheet", href="css/styles.css")
   body
     #container
+      #url(style="display:none") !{url}
       input(
         placeholder="https://e-hentai.org/g/.../.../",
         v-model="url",
@@ -18,5 +19,6 @@ html
         button(@click="movePage(-1)") &lt;
         input(type="number",v-model.number="page",style="{ width:150 }")
         button(@click="movePage(1)") &gt;
+      button(@click="movePage(0)") To top
     script(src="js/vue.js")
     script(src="js/script.js")

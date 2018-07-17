@@ -11,15 +11,16 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.render("index");
+  let q = req.query.q;
+  res.render("index", { url:q });
 });
 
 app.get("/gallery", async (req, res) => {
   try {
-    let cache = JSON.parse(fs.readFileSync("cache.json"));
-    if (cache[req.query.url]) {
-      return res.json({ error:false, images:cache[req.query.url] });
-    }
+    // let cache = JSON.parse(fs.readFileSync("cache.json"));
+    // if (cache[req.query.url]) {
+    //   return res.json({ error:false, images:cache[req.query.url] });
+    // }
 
     let gallery = await rp.get(req.query.url, { qs: { nw: "session" }, jar: true });
     let $ = cheerio.load(gallery);
@@ -27,8 +28,8 @@ app.get("/gallery", async (req, res) => {
     let images = await getImages(first);
     res.json({ error:false, images });
 
-    cache[req.query.url] = images;
-    fs.writeFile("cache.json", JSON.stringify(cache, null, 2), () => console.log(`Cached ${req.query.url}`));
+    // cache[req.query.url] = images;
+    // fs.writeFile("cache.json", JSON.stringify(cache, null, 2), () => console.log(`Cached ${req.query.url}`));
   } catch (error) {
     console.error(error);
    res.json({ error:true, message:error }) 

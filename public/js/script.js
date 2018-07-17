@@ -11,6 +11,7 @@ let app = new Vue({
     async getGallery() {
       this.isLoading = true;
       this.page = 0;
+      history.pushState(null, "", `./?q=${encodeURI(this.url)}`)
       let res = await fetch(`/gallery?url=${encodeURI(this.url)}`, { headers: { "Content-Type": "application/json" } });
       this.isLoading = false;
       data = await res.json();
@@ -38,5 +39,8 @@ let app = new Vue({
       if (!this.isUrlValid) return;
       else this.getGallery();
     }
+  },
+  mounted() {
+    this.url = document.querySelector("#url").textContent;
   }
 })
