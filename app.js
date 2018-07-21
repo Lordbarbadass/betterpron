@@ -23,6 +23,7 @@ app.get("/gallery", async (req, res) => {
     // }
 
     let gallery = await rp.get(req.query.url);
+    console.log(gallery);
     let $ = cheerio.load(gallery);
     let first = $(".gdtm a:first-child").attr("href");
     console.log(first);
@@ -31,8 +32,10 @@ app.get("/gallery", async (req, res) => {
     if (!first) {
       let options = { qs: { nw: "session" }, jar: true };
       gallery = await rp.get(req.query.url, options);
+      console.log(gallery);
       $ = cheerio.load(gallery);
       first = $(".gdtm a:first-child").attr("href");
+      console.log(first);
     }
 
     let images = await getImages(first);
