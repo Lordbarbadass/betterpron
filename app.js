@@ -25,6 +25,7 @@ app.get("/gallery", async (req, res) => {
     let gallery = await rp.get(req.query.url);
     let $ = cheerio.load(gallery);
     let first = $(".gdtm a:first-child").attr("href");
+    console.log(first);
 
     // if the gallery is gross
     if (!first) {
@@ -33,7 +34,7 @@ app.get("/gallery", async (req, res) => {
       $ = cheerio.load(gallery);
       first = $(".gdtm a:first-child").attr("href");
     }
-    
+
     let images = await getImages(first);
     res.json({ error:false, images });
 
