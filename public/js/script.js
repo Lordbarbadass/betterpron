@@ -11,6 +11,7 @@ let app = new Vue({
     async getGallery() {
       this.isLoading = true;
       this.page = 0;
+      this.images = [];
       history.pushState(null, "", `./?q=${encodeURI(this.url)}`)
       let res = await fetch(`/gallery?url=${encodeURI(this.url)}`, { headers: { "Content-Type": "application/json" } });
       this.isLoading = false;

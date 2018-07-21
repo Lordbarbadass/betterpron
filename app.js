@@ -22,11 +22,18 @@ app.get("/gallery", async (req, res) => {
     //   return res.json({ error:false, images:cache[req.query.url] });
     // }
 
-    let gallery = await rp.get(req.query.url, { qs: { nw: "session" }, jar: true });
-    console.log(gallery);
-
+    let gallery = await rp.get(req.query.url);
     let $ = cheerio.load(gallery);
     let first = $(".gdtm a:first-child").attr("href");
+
+    // if the gallery is gross
+    if (!first) {
+      let options = { qs: { nw: "session" }, jar: true };
+      gallery = await rp.get(req.query.url, options);
+      $ = cheerio.load(gallery);
+      first = $(".gdtm a:first-child").attr("href");
+    }
+    
     let images = await getImages(first);
     res.json({ error:false, images });
 
