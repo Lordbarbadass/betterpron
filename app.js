@@ -22,24 +22,13 @@ app.get("/gallery", async (req, res) => {
     //   return res.json({ error:false, images:cache[req.query.url] });
     // }
 
-    let gallery = await rp.get(req.query.url);
-    console.log(gallery);
+    let options = { qs: { nw: "session" }, jar: true };
+    let gallery = await rp.get(req.query.url, options);
     let $ = cheerio.load(gallery);
     let first = $(".gdtm a:first-child").attr("href");
-    console.log(first);
 
-    // if the gallery is gross
-    if (!first) {
-      let options = { qs: { nw: "session" }, jar: true };
-      gallery = await rp.get(req.query.url, options);
-      console.log(gallery);
-      $ = cheerio.load(gallery);
-      first = $(".gdtm a:first-child").attr("href");
-      console.log(first);
-    }
-
-    let images = await getImages(first);
-    res.json({ error:false, images });
+    await getImages(first, res);
+    res.end();
 
     // cache[req.query.url] = images;
     // fs.writeFile("cache.json", JSON.stringify(cache, null, 2), () => console.log(`Cached ${req.query.url}`));
@@ -49,7 +38,7 @@ app.get("/gallery", async (req, res) => {
   }
 });
 
-async function getImages (url, acc=[]) {
+async function getImages (url, res) {
   console.log(`Getting ${url}`);
   
   let page = await rp.get(url);
@@ -57,9 +46,9 @@ async function getImages (url, acc=[]) {
   let a = $("#i3 a");
   let nextUrl = a.attr("href");
   let img = a.find("img").attr("src");
-  acc.push(img);
-  if (url !== nextUrl) await getImages(nextUrl, acc);
-  return acc;
+  // acc.push(img);
+  res.write(img + "\n")
+  if (url !== nextUrl) await getImages(nextUrl, res);
 }
 
 app.listen(process.env.PORT || 3000, () => console.log("Listening on port " + (process.env.PORT || 3000)));

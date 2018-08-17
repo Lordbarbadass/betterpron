@@ -4,7 +4,10 @@ html
     meta(charset='utf-8')
     link(rel="stylesheet", href="css/styles.css")
   body
-    #container
+    #container(
+      @keyup.prevent.left="movePage(-1)",
+      @keyup.prevent.right="movePage(1)",
+    )
       #url(style="display:none") !{url}
       input(
         placeholder="https://e-hentai.org/g/.../.../",
