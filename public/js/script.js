@@ -50,6 +50,11 @@ let app = new Vue({
   }
 })
 
+document.body.onkeyup = function (e) {
+  if (e.key === "ArrowRight") app.movePage(1);
+  else if (e.key === "ArrowLeft") app.movePage(-1)
+}
+
 function makeRequest(url, onprogress, onload) {
   let xhr = new XMLHttpRequest();
   xhr.addEventListener("progress", onprogress);
