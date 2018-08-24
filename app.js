@@ -26,7 +26,10 @@ app.get("/gallery", async (req, res) => {
     let gallery = await rp.get(req.query.url, options);
     let $ = cheerio.load(gallery);
     let first = $(".gdtm a:first-child").attr("href");
-
+    if (!first) {
+      console.log(gallery);
+      return res.send(gallery);
+    }
     await getImages(first, res);
     res.end();
 
