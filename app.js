@@ -22,8 +22,8 @@ app.get("/gallery", async (req, res) => {
     //   return res.json({ error:false, images:cache[req.query.url] });
     // }
 
-    let options = { qs: { nw: "session" }, jar: true };
-    let gallery = await rp.get(req.query.url, options);
+    // let options = { qs: { nw: "session" }, jar: true };
+    let gallery = await rp.get(req.query.url);
     let $ = cheerio.load(gallery);
     let first = $(".gdtm a:first-child").attr("href");
     if (!first) {
