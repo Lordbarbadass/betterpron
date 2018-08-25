@@ -14,6 +14,10 @@ html, body {
   min-height: 100%;
 }
 
+img {
+  width: 95vw;
+}
+
 .invalid {
   border: 1px solid red;
 }
