@@ -14,7 +14,7 @@ html
         :disabled="isLoading"
       )
       img(v-show="isLoading",src="img/loading.svg")
-      img(v-for="img in curPage",:src="img")
+      img(v-for="img in curPage",:src="img",class="page")
       nav(v-show="images.length > 50")
         button(@click="movePage(-1)") &lt;
         input(type="number",v-model.number="page",style="{ width:150 }")

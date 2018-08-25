@@ -23,15 +23,19 @@ app.get("/gallery", async (req, res) => {
     // }
 
     let options = { qs: { nw: "session" }, jar: true };
-    let gallery = await rp.get(req.query.url, options);
-    let $ = cheerio.load(gallery);
-    let first = $(".gdtm a:first-child").attr("href");
-    if (!first) {
-      console.log(gallery);
-      return res.send(gallery);
-    }
-    await getImages(first, res);
-    res.end();
+    // let gallery = await rp.get(req.query.url, options);
+    rp(req.query.url, options)
+      .then(async gallery => {
+        console.log(gallery);
+        let $ = cheerio.load(gallery);
+        let first = $(".gdtm a:first-child").attr("href");
+        if (!first) {
+          return res.send(gallery);
+        }
+        await getImages(first, res);
+        res.end();
+      })
+      .catch(console.error);
 
     // cache[req.query.url] = images;
     // fs.writeFile("cache.json", JSON.stringify(cache, null, 2), () => console.log(`Cached ${req.query.url}`));
