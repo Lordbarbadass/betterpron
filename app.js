@@ -25,7 +25,7 @@ app.get("/gallery", async (req, res) => {
     let options = { qs: { nw: "session" }, jar: true };
     // let gallery = await rp.get(req.query.url, options);
     rp(req.query.url, options)
-      .then(gallery => {
+      .then(async gallery => {
         console.log(gallery);
         let $ = cheerio.load(gallery);
         let first = $(".gdtm a:first-child").attr("href");
