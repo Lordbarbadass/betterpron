@@ -26,7 +26,6 @@ app.get("/gallery", async (req, res) => {
     // let gallery = await rp.get(req.query.url, options);
     rp(req.query.url, options)
       .then(async gallery => {
-        console.log(gallery);
         let $ = cheerio.load(gallery);
         let first = $(".gdtm a:first-child").attr("href");
         if (!first) {
@@ -58,4 +57,4 @@ async function getImages (url, res) {
   if (url !== nextUrl) await getImages(nextUrl, res);
 }
 
-app.listen(process.env.PORT || 3000, () => console.log("Listening on port " + (process.env.PORT || 3000)));
+app.listen(process.env.PORT || 7381, () => console.log("Listening on port " + (process.env.PORT || 7381)));
