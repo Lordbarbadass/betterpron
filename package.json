@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx rollup -c -w",
-    "livereload": "npx livereload dist/"
+    "livereload": "npx livereload dist/",
+    "start": "npx rollup -c && cd dist/ && node app.js"
   },
   "repository": {
     "type": "git",
