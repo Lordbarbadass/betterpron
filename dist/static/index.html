@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Better Pr0n 2</title>
+  <meta name="description" content="An even better better pron">
+  <meta name="author" content="T Gonguet">
+</head>
+
+<body class="bg-black text-white font-sans">
+  <div id="container" class="text-center justify-center">
+    <h1 class="m-4">Better pr0n v2</h1>
+    <form onsubmit="return false">
+      <p class="m-2">
+        <input type="text" v-model="url" placeholder="https://g.e-hentai.org/g/.../.../" class="rounded px-2 py-1" :disabled="isLoading">
+      </p>
+      <p class="m-2">
+        Pages
+        <label>
+          from <input type="number" v-model.number="settings.from" min=0 placeholder="start" class="rounded px-2 py-1 w-16" :disabled="isLoading">
+        </label>
+        <label>
+          to <input type="number" v-model.number="settings.to" min=0 placeholder="end" class="rounded px-2 py-1 w-16" :disabled="isLoading">
+        </label>
+      </p>
+      <p class="m-2"><label>
+        Display
+        <input type="number" v-model.number="settings.perPage" placeholder="50" class="rounded px-2 py-1 w-16">
+        images at a time
+      </label></p>
+      <p class="m-2">
+        <button
+          class="px-4 py-2 font-bold rounded"
+          :class="{ 'bg-blue':!isLoading, 'text-white':!isLoading, 'bg-blue-darkest':isLoading, 'text-gray':isLoading }"
+          @click="getGallery"
+          :disabled="isLoading">GET</button>
+      </p>
+    </form>
+    <p class="m-2" v-show="images.length">{{ images.length }} images loaded</p>
+    <img :src="src" v-for="src in curPage">
+    <nav v-show="nbPages > 1">
+      <button class="px-2 py-1 bg-blue text-white font-bold rounded" @click="movePage(-1)">&lt;</button>
+      <input type="number" v-model.number="page" class="rounded px-2 py-1 w-16"> / {{ nbPages }}
+      <button class="px-2 py-1 bg-blue text-white font-bold rounded" @click="movePage(1)">&gt;</button>
+    </nav>
+  </div>
+  <script src="main.min.js"></script>
+</body>
+</html>
